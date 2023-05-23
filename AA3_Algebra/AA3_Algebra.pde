@@ -1,4 +1,4 @@
-
+  
 Scenari[] scenari;
 
 //Variables del escenario
@@ -9,55 +9,58 @@ float wallHeigth = 150;
 float fieldSizeX = 1200;
 float fieldSizeZ = 500;
 float marginOffset = 150;
-float cornerSize = 900;
+float cornerSize = 800;
 float cornerAngle = 40;
-void setup() 
+float hallHeight = 80;
+void setup()
 {
-  size(800,600, P3D);
+  size(800, 600, P3D);
   InitializeScenari();
-
 }
 
 void InitializeScenari()
 {
   scenari = new Scenari[30];
   //Limites X
-  scenari[0] = new Scenari(new PVector(-fieldSizeX,0,0), gridSize, wallHeigth, fieldSizeZ, 0, color(255));
-  scenari[1] = new Scenari(new PVector(fieldSizeX,0,0), gridSize, wallHeigth, fieldSizeZ, 0, color(255));
+  scenari[0] = new Scenari(new PVector(-fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ, 0, color(255));
+  scenari[1] = new Scenari(new PVector(fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ, 0, color(255));
   //Limites Z
-  scenari[2] = new Scenari(new PVector(0 ,0,fieldSizeZ), fieldSizeX * 2, wallHeigth, gridSize, 0, color(255));
-  scenari[3] = new Scenari(new PVector(0,0,-fieldSizeZ), fieldSizeX * 2, wallHeigth, gridSize, 0, color(255));
-  
+  scenari[2] = new Scenari(new PVector(0, 0, fieldSizeZ), fieldSizeX * 2, wallHeigth, gridSize, 0, color(255));
+  scenari[3] = new Scenari(new PVector(0, 0, -fieldSizeZ), fieldSizeX * 2, wallHeigth, gridSize, 0, color(255));
+
   //Limites Torcidos derecha
   scenari[4] = new Scenari(new PVector(fieldSizeX - marginOffset, 0, fieldSizeZ - marginOffset), cornerSize, wallHeigth, gridSize, cornerAngle, color(255));
   scenari[5] = new Scenari(new PVector(fieldSizeX - marginOffset, 0, -fieldSizeZ + marginOffset), cornerSize, wallHeigth, gridSize, -cornerAngle, color(255));
-  
+
   //Limites Torcidos derecha
   scenari[6] = new Scenari(new PVector(-fieldSizeX + marginOffset, 0, fieldSizeZ - marginOffset), cornerSize, wallHeigth, gridSize, -cornerAngle + 180, color(255));
   scenari[7] = new Scenari(new PVector(-fieldSizeX + marginOffset, 0, -fieldSizeZ + marginOffset), cornerSize, wallHeigth, gridSize, cornerAngle + 180, color(255));
-
-  scenari[29] = new Scenari(new PVector(), 100, 100, 100, 0, color(0));
-
+  
+  //Suelo
+  scenari[8] = new Scenari(new PVector(0,-10,0), fieldSizeX * 2, -wallHeigth, fieldSizeZ * 2, 0, color(141,81,4));
+  
+  //Pasillos
+  scenari[9] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, (fieldSizeZ / 3)), 250, hallHeight, gridSize, cornerAngle, color(255,0,0));
+  scenari[10] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, -(fieldSizeZ / 3)), 250, hallHeight, gridSize, -cornerAngle, color(255,0,0));
 }
 
 
-void draw() 
+void draw()
 {
   background(100);
   DrawGrid();
-  CameraBehaviour();
-  for(Scenari item : scenari)
+  for (Scenari item : scenari)
   {
-    if(item != null){
+    if (item != null) {
       item.Draw();
     }
-  }
-
+  }  
+  CameraBehaviour();
 }
 
 void DrawGrid()
 {
- 
+
   //Hacemos un push en la matriz para volver atras despues dibujar todo el mapa
   pushMatrix();
   //El escenario estara posicionado en funcion del destino
@@ -168,5 +171,4 @@ void keyReleased()
   if ( keyCode == PConstants.LEFT ) {
     camRotatingLeft = false;
   }
-
 }
