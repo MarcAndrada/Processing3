@@ -9,8 +9,9 @@ float wallHeigth = 150;
 float fieldSizeX = 1200;
 float fieldSizeZ = 500;
 float marginOffset = 150;
-float cornerSize = 800;
+float cornerSize = 450;
 float cornerAngle = 40;
+float secondaryAngle = 55;
 float hallHeight = 80;
 void setup()
 {
@@ -22,11 +23,11 @@ void InitializeScenari()
 {
   scenari = new Scenari[30];
   //Limites X
-  scenari[0] = new Scenari(new PVector(-fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ, 0, color(255));
-  scenari[1] = new Scenari(new PVector(fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ, 0, color(255));
+  scenari[0] = new Scenari(new PVector(-fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ - 80, 0, color(255));
+  scenari[1] = new Scenari(new PVector(fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ - 80, 0, color(255));
   //Limites Z
-  scenari[2] = new Scenari(new PVector(0, 0, fieldSizeZ), fieldSizeX * 2, wallHeigth, gridSize, 0, color(255));
-  scenari[3] = new Scenari(new PVector(0, 0, -fieldSizeZ), fieldSizeX * 2, wallHeigth, gridSize, 0, color(255));
+  scenari[2] = new Scenari(new PVector(0, 0, fieldSizeZ), fieldSizeX * 2 - 600, wallHeigth, gridSize, 0, color(255));
+  scenari[3] = new Scenari(new PVector(0, 0, -fieldSizeZ), fieldSizeX * 2 - 600, wallHeigth, gridSize, 0, color(255));
 
   //Limites Torcidos derecha
   scenari[4] = new Scenari(new PVector(fieldSizeX - marginOffset, 0, fieldSizeZ - marginOffset), cornerSize, wallHeigth, gridSize, cornerAngle, color(255));
@@ -39,9 +40,22 @@ void InitializeScenari()
   //Suelo
   scenari[8] = new Scenari(new PVector(0,-10,0), fieldSizeX * 2, -wallHeigth, fieldSizeZ * 2, 0, color(141,81,4));
   
-  //Pasillos
-  scenari[9] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, (fieldSizeZ / 3)), 250, hallHeight, gridSize, cornerAngle, color(255,0,0));
-  scenari[10] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, -(fieldSizeZ / 3)), 250, hallHeight, gridSize, -cornerAngle, color(255,0,0));
+  //Pasillos Verdes
+  scenari[9] = new Scenari(new PVector(0, 0, 0), gridSize, hallHeight, fieldSizeX - ((fieldSizeX/8) * 2.5f), 0, color(0,255,0));
+  //Pasillos Rojos
+  scenari[10] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, (fieldSizeZ / 3)), 250, hallHeight, gridSize, cornerAngle, color(255,0,0));
+  scenari[11] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, (-fieldSizeZ / 3)), 250, hallHeight, gridSize, -cornerAngle, color(255,0,0));
+  scenari[12] = new Scenari(new PVector((fieldSizeX / 8) * 4, 0, 0), gridSize, hallHeight, 600, 0, color(255,0,0));
+  scenari[13] = new Scenari(new PVector((fieldSizeX / 8) * 2, 0, (fieldSizeZ / 2)), 400, hallHeight, gridSize, -secondaryAngle, color(255,0,0));
+  scenari[14] = new Scenari(new PVector((fieldSizeX / 8) * 2, 0, (-fieldSizeZ / 2)), 400, hallHeight, gridSize, secondaryAngle, color(255,0,0));
+  //Pasillos Azules 
+  scenari[15] = new Scenari(new PVector((-fieldSizeX / 8) * 6, 0, (fieldSizeZ / 3)), 250, hallHeight, gridSize, -cornerAngle , color(0,0,255));
+  scenari[16] = new Scenari(new PVector((-fieldSizeX / 8) * 6, 0, (-fieldSizeZ / 3)), 250, hallHeight, gridSize, cornerAngle, color(0,0,255));
+  scenari[17] = new Scenari(new PVector((-fieldSizeX / 8) * 4, 0, 0), gridSize, hallHeight, 600, 0, color(0,0,255));
+  scenari[18] = new Scenari(new PVector((-fieldSizeX / 8) * 2, 0, (fieldSizeZ / 2)), 400, hallHeight, gridSize, secondaryAngle, color(0,0,255));
+  scenari[19] = new Scenari(new PVector((-fieldSizeX / 8) * 2, 0, (-fieldSizeZ / 2)), 400, hallHeight, gridSize, -secondaryAngle, color(0,0,255));
+
+
 }
 
 
