@@ -1,5 +1,9 @@
-class Particle
+enum Team {BLUE, GREEN, RED, ORANGE};
+
+class Soldier
 {
+
+  Team currentTeam;
   PVector pos;
   PVector vel;
 
@@ -13,10 +17,15 @@ class Particle
   //KC separacion de las colisiones
   float KC;
   color color_p;
-
   float maxSpeed;
-  Particle(PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _size, color _color, float _KB, float _KD)
+
+  boolean isCommander;
+
+  boolean isAlive;
+
+  Soldier(Team _currentTeam, PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _size, color _color, float _KB, float _KD, boolean _isCommander)
   {
+    currentTeam = _currentTeam;
     pos =_pos;
     vel = _velocity;
     maxSpeed = _maxSpeed;
@@ -28,9 +37,11 @@ class Particle
     KB = _KB; // Priodidad de seguir a la bandada
     KD = _KD; // Prioridad de seguir al objetivo
     KC = 3.5f; // Prioridad de evitar colisiones
+
+    isCommander = _isCommander;
   }
 
-  /*void Move(PVector _destPos, CollisionObj[] _colliders)
+  void Move(PVector _destPos, Scenari[] _colliders)
   {
     PVector strenght= new PVector(0.0, 0.0, 0.0);
     PVector accel = new PVector(0.0, 0.0, 0.0);
@@ -68,15 +79,15 @@ class Particle
     pos.z = pos.z + vel.z * deltaTime;
   }
 
-  PVector CheckCollision(CollisionObj[] _colliders)
+  PVector CheckCollision(Scenari[] _colliders)
   {
 
     for (int i = 0; i < _colliders.length; i++)
     {
-      if (isColliding(pos, _colliders[i].pos, size, _colliders[i].size)) //Si esta chocando con algo
+      if (isColliding(pos, _colliders[i].m_pos, size, _colliders[i].m_height)) //Si esta chocando con algo
       {
         //Devolverle la posicion de el objeto encontrado
-        return _colliders[i].pos;
+        return _colliders[i].m_pos;
       }
     }
 
@@ -95,7 +106,7 @@ class Particle
 
     return false;
   }
-*/
+
   void Draw()
   {
     pushMatrix();

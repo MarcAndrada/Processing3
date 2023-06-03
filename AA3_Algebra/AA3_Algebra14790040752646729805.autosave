@@ -1,4 +1,4 @@
-  
+      
 
 float deltaTime = 0.04;
 
@@ -41,7 +41,7 @@ void setup()
 
 void InitializeScenari()
 {
-  scenari = new Scenari[20];
+  scenari = new Scenari[30];
   //Limites X
   scenari[0] = new Scenari(new PVector(-fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ - 80, 0, color(255));
   scenari[1] = new Scenari(new PVector(fieldSizeX, 0, 0), gridSize, wallHeigth, fieldSizeZ - 80, 0, color(255));
@@ -80,39 +80,43 @@ void InitializeScenari()
 
 void InitializeSoldiers()
 {
-  hitlerCommander = new Soldier(Team.RED, new PVector()/*Aqui va el primer punto de la curva 1*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
-  mussoliniCommander = new Soldier(Team.ORANGE, new PVector()/*Aqui va el primer punto de la curva 2*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
-  abrahamLinconCommander = new Soldier(Team.BLUE, new PVector()/*Aqui va el primer punto de la curva 3*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
-  gandhiCommander = new Soldier(Team.GREEN, new PVector()/*Aqui va el primer punto de la curva 4*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
+  hitlerCommander = new Soldier(Soldier.Team.RED, new PVector()/*Aqui va el primer punto de la curva 1*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
+  mussoliniCommander = new Soldier(Soldier.Team.ORANGE, new PVector()/*Aqui va el primer punto de la curva 2*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
+  abrahamLinconCommander = new Soldier(Soldier.Team.BLUE, new PVector()/*Aqui va el primer punto de la curva 3*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
+  gandhiCommander = new Soldier(Soldier.Team.GREEN, new PVector()/*Aqui va el primer punto de la curva 4*/, new PVector(), 5f, 60f, commandersSize, color(0)/*Aqui poner la imagen*/,0.1f, 10, true);
 
   soldiers = new Soldier[soldiersPerComander * 4];
 
   for(int i = 0; i < soldiers.length/4; i++)
   {
-    float kb = random(0,10);
+    float kb = random(1,10);
     float kd = 10 - kb;
-    soldiers[i] = new Soldier(Team.RED, hitlerCommander.pos, new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    soldiers[i] = new Soldier(Soldier.Team.RED, hitlerCommander.pos, new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    println("Hitler" + i);
   } 
 
   for(int i = soldiers.length/4; i < soldiers.length/4 * 2; i++)
   {
-    float kb = random(0,10);
+    float kb = random(1,10);
     float kd = 10 - kb;
-    soldiers[i] = new Soldier(Team.ORANGE, mussoliniCommander.pos, new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    soldiers[i] = new Soldier(Soldier.Team.ORANGE, mussoliniCommander.pos, new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    println("Mussolini" + i);
   } 
 
   for(int i = soldiers.length/4 * 2; i < soldiers.length/4 * 3; i++)
   {
-    float kb = random(0,10);
+    float kb = random(1,10);
     float kd = 10 - kb;
-    soldiers[i] = new Soldier(Team.GREEN, gandhiCommander.pos, new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    soldiers[i] = new Soldier(Soldier.Team.GREEN, gandhiCommander.pos, new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    println("Gandhi" + i);
   } 
 
   for(int i = soldiers.length/4 * 3 ; i < soldiers.length; i++)
   {
-    float kb = random(0,10);
+    float kb = random(1,10);
     float kd = 10 - kb;
-    soldiers[i] = new Soldier(Team.BLUE, abrahamLinconCommander.pos , new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    soldiers[i] = new Soldier(Soldier.Team.BLUE, abrahamLinconCommander.pos , new PVector(), random(7.5f, 12.5f), random(40,60), soldiersSize, color(0)/*Aqui poner la imagen*/,kb, kd, false);
+    println("Lincon" + i);
   } 
 
 }
@@ -120,29 +124,14 @@ void InitializeSoldiers()
 void draw()
 {
   background(100);
-  //Beahviours
-  
-  CameraBehaviour();
-
-
-
-  //Draw
   DrawGrid();
   for (Scenari item : scenari)
   {
-    item.Draw();
-  } 
-  hitlerCommander.Draw();
-  mussoliniCommander.Draw();
-  gandhiCommander.Draw();
-  abrahamLinconCommander.Draw();
-
-  for(Soldier item : soldiers)
-  {
-    item.Draw();
-  }
-
-
+    if (item != null) {
+      item.Draw();
+    }
+  }  
+  CameraBehaviour();
 }
 
 void DrawGrid()
@@ -166,44 +155,6 @@ void DrawGrid()
   popMatrix();
 }
 
-
-//MATH FUNCTIONS
-PVector UnitaryVector(PVector start, PVector end)
-{
-  PVector result = new PVector();
-
-  result.x = end.x - start.x;
-  result.y = end.y - start.y;
-  result.z = end.z - start.z;
-
-  float mod = sqrt(result.x * result.x + result.y * result.y + result.z * result.z );
-
-  result.x /= mod;
-  result.y /= mod;
-  result.z /= mod;
-
-
-  return result;
-}
-PVector FlockCenter()
-{
-  PVector result;
-  result = new PVector(0.0, 0.0, 0.0);
-
-  for (int i = 0; i < soldiers.length; i++)
-  {
-    result.x += soldiers[i].pos.x;
-    result.y += soldiers[i].pos.y;
-    result.z += soldiers[i].pos.z;
-  }
-
-  result.x /= soldiers.length;
-  result.y /= soldiers.length;
-  result.z /= soldiers.length;
-
-
-  return result;
-}
 
 void keyPressed()
 {
