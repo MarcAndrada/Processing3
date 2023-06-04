@@ -4,16 +4,16 @@ class Scenari
   PVector m_pos;
   float m_height;
   float m_width;
-  float m_depht;
+  float m_depth;
   float m_rotation;
   color m_color;
 
-  Scenari(PVector _pos, float _width, float _height, float _depht, float _rotation, color _color)
+  Scenari(PVector _pos, float _width, float _height, float _depth, float _rotation, color _color)
   {
     m_pos = _pos;
     m_height = _height;
     m_width = _width;
-    m_depht = _depht;
+    m_depth = _depth;
     m_rotation = _rotation;
     m_color = _color;
   }
@@ -28,7 +28,7 @@ class Scenari
     fill(m_color);
     translate(m_pos.x, groundYPos + m_pos.y - m_height / 2, m_pos.z);
     rotateY(radians(m_rotation));
-    box(m_width, m_height, m_depht);
+    box(m_width, m_height, m_depth);
     popMatrix();
   }
 
