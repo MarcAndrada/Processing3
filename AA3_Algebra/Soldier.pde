@@ -30,11 +30,15 @@ class Soldier
   float corveIncrement;
   float corveSpeed = 0.04f;
   float minDistance = 30f;
+
+
+  int hp;
   boolean isAlive;
 
   Soldier[] soldierSquad;
 
-  Soldier(Team _currentTeam, PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _height, float _width, float _depht, color _color, float _KB, float _KD, Soldier[] _soldierSquad,  boolean _isCommander)
+
+  Soldier(Team _currentTeam, PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _height, float _width, float _depht, color _color, float _KB, float _KD, Soldier[] _soldierSquad,  boolean _isCommander, int _hp)
   {
     currentTeam = _currentTeam;
     pos =_pos;
@@ -52,15 +56,18 @@ class Soldier
 
     soldierSquad = _soldierSquad;
     isCommander = _isCommander;
+    hp = _hp;
   }
 
   void Behaviour(PVector _destPos)
   {  
-    //Moverse
-    Move(_destPos);
-    //Comprobar si disparar
+    if(isAlive){
+      //Moverse
+      Move(_destPos);
+      //Comprobar si disparar
 
-    CheckIfReachedDestPoint(_destPos);
+      CheckIfReachedDestPoint(_destPos);
+    }
 
   }
 
@@ -114,25 +121,25 @@ class Soldier
 
     if (!isCommander)
     {
-      if (isColliding(pos, m_width, m_height, m_depth, hitlerCommander.pos, hitlerCommander.m_width, hitlerCommander.m_height, hitlerCommander.m_depth)) //Si esta chocando con hitler
+      if (hitlerCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, hitlerCommander.pos, hitlerCommander.m_width, hitlerCommander.m_height, hitlerCommander.m_depth)) //Si esta chocando con hitler
       {
         //Devolverle la posicion de el objeto encontrado
         return hitlerCommander.pos;
       }
       
-      if (isColliding(pos, m_width, m_height, m_depth, mussoliniCommander.pos, mussoliniCommander.m_width, mussoliniCommander.m_height, mussoliniCommander.m_depth)) //Si esta chocando con mussolini
+      if (mussoliniCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, mussoliniCommander.pos, mussoliniCommander.m_width, mussoliniCommander.m_height, mussoliniCommander.m_depth)) //Si esta chocando con mussolini
       {
         //Devolverle la posicion de el objeto encontrado
         return mussoliniCommander.pos;
       }
       
-      if (isColliding(pos, m_width, m_height, m_depth, gandhiCommander.pos, gandhiCommander.m_width, gandhiCommander.m_height, gandhiCommander.m_depth)) //Si esta chocando con gandhi
+      if (gandhiCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, gandhiCommander.pos, gandhiCommander.m_width, gandhiCommander.m_height, gandhiCommander.m_depth)) //Si esta chocando con gandhi
       {
         //Devolverle la posicion de el objeto encontrado
         return gandhiCommander.pos;
       }
       
-      if (isColliding(pos, m_width, m_height, m_depth, abrahamLinconCommander.pos, abrahamLinconCommander.m_width, abrahamLinconCommander.m_height, abrahamLinconCommander.m_depth)) //Si esta chocando con lincon
+      if (abrahamLinconCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, abrahamLinconCommander.pos, abrahamLinconCommander.m_width, abrahamLinconCommander.m_height, abrahamLinconCommander.m_depth)) //Si esta chocando con lincon
       {
           //Devolverle la posicion de el objeto encontrado
           return abrahamLinconCommander.pos;
@@ -140,13 +147,13 @@ class Soldier
 
       for(Soldier item : soldiers)
       {    
-        if (item != this && isColliding(pos, m_width, m_height, m_depth, item.pos,item.m_width, item.m_height, item.m_depth)) //Si esta chocando con algo y no somos nosotros mismos
+        if (item != this && item.isAlive && isColliding(pos, m_width, m_height, m_depth, item.pos,item.m_width, item.m_height, item.m_depth)) //Si esta chocando con algo y no somos nosotros mismos
         {
           //Devolverle la posicion de el objeto encontrado
           return item.pos;
         }
       }
-    } //<>//
+    }
 
     for (Scenari item : scenari)
     {
@@ -208,14 +215,25 @@ class Soldier
 
   void Draw()
   {
-    pushMatrix();
-    translate(pos.x, pos.y, pos.z);
-    fill(color_p);
-    strokeWeight(4);
-    stroke(0);
-    box(m_width, m_height, m_depth);
-    popMatrix();
+    if(isAlive)
+    {
+      pushMatrix();
+      translate(pos.x, pos.y, pos.z);
+      fill(color_p);
+      strokeWeight(4);
+      stroke(0);
+      box(m_width, m_height, m_depth);
+      popMatrix();
+    }
+
+  }
 
 
+  public void DealDamage(){
+    hp--;
+    if(hp <= 0)
+    {
+      isAlive = false;
+    }
   }
 }
