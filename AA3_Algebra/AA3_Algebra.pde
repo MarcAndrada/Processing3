@@ -1,3 +1,5 @@
+PVector[] pestañas = new PVector[4]; 
+int menuCounter = 0;
 
 ArrayList<Bullet> bullets;
 float deltaTime = 0.08;
@@ -43,8 +45,8 @@ Corve[] gandhiCorve;
 
 void setup()
 {
-  size(800, 600, P3D);
   bullets = new ArrayList<Bullet>();
+  size(1000, 1000, P3D);
   InitializeScenari();
   InitializeCorves();
   InitializeSoldiers();
@@ -256,6 +258,10 @@ void draw()
       break;
     default :
       break;
+    //menu
+    if (menuCounter == 0) 
+    { 
+      CuadradosMenu();
     }
 
     item.Behaviour(destPos);
@@ -270,6 +276,20 @@ void draw()
   gandhiCorve[0].DrawCorve();
   gandhiCorve[0].DrawControlPoitns();
   CameraBehaviour();
+    else if (menuCounter == 1)
+    {
+      MenuPlayerSelect();
+    }
+    else if(menuCounter == 2)
+    {
+      MenuVariables();
+    }
+    else if(menuCounter == 3)
+    {
+      Game();
+    }
+    
+ }
 
   if (!bullets.isEmpty()) {
     for (int i = 0; i< bullets.size(); i++)

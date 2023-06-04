@@ -1,24 +1,24 @@
 
-void CuadradosMenu()
+//void CuadradosMenu()
 {
-  background(255);
+  // background(255);
 
-  fill(175, 175, 175);
-  rect(400, 500, 200, 50);
+  // fill(175, 175, 175);
+  // rect(400, 500, 200, 50);
   
-  fill(175, 175, 175);
-  rect(400, 565, 200, 50);
+  // fill(175, 175, 175);
+  // rect(400, 565, 200, 50);
 
-  fill(10);
-  textSize(25);
-  text("PLAY", 475, 530);
+  // fill(10);
+  // textSize(25);
+  // text("PLAY", 475, 530);
 
 
-  fill(10);
-  textSize(25);
-  text("MOD RUTA", 455, 595);
+  // fill(10);
+  // textSize(25);
+  // text("MOD RUTA", 455, 595);
 
-  PressButton();
+  // PressButton();
 } 
 
  
