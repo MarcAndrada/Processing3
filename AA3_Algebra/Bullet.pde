@@ -5,15 +5,16 @@ class Bullet
 
     PVector pos;
     PVector bulletDirection;
-    float bulletSize;
-    float bulletSpeed;
+    float bulletSize = 3;
+    float bulletSpeed = 0.02; 
     Team currentTeam;
 
-    color  bulletColor = color(0);
+    color  bulletColor = color(0,0,0);
     Bullet(PVector _pos, PVector _bulletDirection, Team _currTeam)
     {
-        pos = _pos;
-        bulletDirection = _bulletDirection;
+           
+        pos = new PVector(_pos.x, _pos.y, _pos.z);
+        bulletDirection = new PVector(_bulletDirection.x - _pos.x, pos.y, _bulletDirection.z - _pos.z);
         currentTeam = _currTeam;
     }
 
@@ -22,7 +23,7 @@ class Bullet
     {
         pos.x += bulletDirection.x * bulletSpeed;
         pos.z += bulletDirection.z * bulletSpeed;
-
+        CheckCollision();
     }
 
     void CheckCollision()
@@ -33,20 +34,71 @@ class Bullet
             case ORANGE:
             for(Soldier item : soldiers)
             {
-                if(item.currentTeam == Team.BLUE || item.currentTeam == Team.GREEN)
+                if(item.isAlive && item.currentTeam == Team.BLUE || item.isAlive && item.currentTeam == Team.GREEN)
                 {
-                    
+                    if(isColliding(pos, bulletSize,bulletSize, bulletSize, item.pos, item.m_width,  item.m_height, item.m_depth))
+                    {
+                        println("Le he dado a un comunista");
+                        item.DealDamage();
+                        //Destruir Bala
+                        DestroyBullet();
+                        return;
+                    }
                 }
             }
+
+            if(gandhiCommander.isAlive && isColliding(pos, bulletSize,bulletSize, bulletSize, gandhiCommander.pos, gandhiCommander.m_width,  gandhiCommander.m_height, gandhiCommander.m_depth))
+            {
+                println("Le DI A GANDHI");
+                gandhiCommander.DealDamage();
+                //Destruir Bala
+                DestroyBullet();
+                return;
+            }
+            if(abrahamLinconCommander.isAlive && isColliding(pos, bulletSize,bulletSize, bulletSize, abrahamLinconCommander.pos, abrahamLinconCommander.m_width,  abrahamLinconCommander.m_height, abrahamLinconCommander.m_depth))
+            {
+                println("Le DI A LINCON");
+                abrahamLinconCommander.DealDamage();
+                //Destruir Bala
+                DestroyBullet();
+                return;
+            }
+
             break;
             case BLUE:
             case GREEN:
             for(Soldier item : soldiers)
             {
-                if(item.currentTeam == Team.RED || item.currentTeam == Team.ORANGE)
+                if(item.isAlive && item.currentTeam == Team.RED || item.isAlive && item.currentTeam == Team.ORANGE)
                 {
-                    
+                    if(isColliding(pos, bulletSize,bulletSize, bulletSize, item.pos, item.m_width,  item.m_height, item.m_depth))
+                    {
+                      println("Le he dado a un pibe bueno");
+                        item.DealDamage();
+                        //Destruir Bala
+                        DestroyBullet();
+                        return;
+                    }
                 }
+                
+            }
+
+            if(hitlerCommander.isAlive && isColliding(pos, bulletSize,bulletSize, bulletSize, hitlerCommander.pos, hitlerCommander.m_width,  hitlerCommander.m_height, hitlerCommander.m_depth))
+            {
+                println("Le DI A HITLER");
+                hitlerCommander.DealDamage();
+                //Destruir Bala
+                DestroyBullet();
+                return;
+            }
+
+            if(mussoliniCommander.isAlive && isColliding(pos, bulletSize,bulletSize, bulletSize, mussoliniCommander.pos, mussoliniCommander.m_width,  mussoliniCommander.m_height, mussoliniCommander.m_depth))
+            {
+                println("Le DI A MUSSOLINI");
+                mussoliniCommander.DealDamage();
+                //Destruir Bala
+                DestroyBullet();
+                return;
             }
             break;
             default:
@@ -55,10 +107,12 @@ class Bullet
 
         for (Scenari item : scenari)
         {
-            if(isColliding(pos, bulletSize,bulletSize, bulletSize, item.m_pos, item.m_width,  item.m_height, item.m_depth))
+            if(item != floor && isColliding(pos, bulletSize,bulletSize, bulletSize, item.m_pos, item.m_width,  item.m_height, item.m_depth))
             {
                 //Destruir Bala
-                
+                println("PUTA PARED PUTA PARED");
+                DestroyBullet();
+                return;
             }
         }
     }
@@ -77,7 +131,6 @@ class Bullet
         if(maxP1Point.z > minP2Point.z && maxP1Point.z < maxP2Point.z 
         || minP1Point.z > minP2Point.z && minP1Point.z < maxP2Point.z)
         {
-          println("Ha chocado");
           return true;
         }
       }
@@ -99,13 +152,10 @@ class Bullet
         fill(bulletColor);
         pushMatrix();
         translate(pos.x, pos.y, pos.z);
-        sphere(bulletSize);
+        box(bulletSize);
         popMatrix();
 
     }
-
-
-
 
 
 }
