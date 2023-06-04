@@ -1,4 +1,5 @@
-
+PVector[] pestañas = new PVector[4]; 
+int menuCounter = 0;
 
 float deltaTime = 0.08;
 
@@ -40,7 +41,7 @@ Corve[] gandhiCorve;
 
 void setup()
 {
-  size(800, 600, P3D);
+  size(1000, 1000, P3D);
   InitializeScenari();
   InitializeCorves();
   InitializeSoldiers();
@@ -233,63 +234,25 @@ void InitializeCorves()
 
 void draw()
 {
-
-  //pointLight(255, 255, 255, 0, 0, 0);
-
-  background(100);
-  //Beahviours
-  CommandersBehaviour();
-
-  for(Soldier item : soldiers)
-  {
-    PVector destPos = new PVector(0,0,0);
-    switch (item.currentTeam) {
-      case RED :
-        destPos = hitlerCommander.pos;
-      break;	
-      case ORANGE :
-        destPos = mussoliniCommander.pos;
-      break;	
-      case BLUE :
-        destPos = abrahamLinconCommander.pos;
-      break;	
-      case GREEN :
-        destPos = gandhiCommander.pos;
-      break;
-      default :
-      break;		
+    //menu
+    if (menuCounter == 0) 
+    { 
+      CuadradosMenu();
+    }
+    else if (menuCounter == 1)
+    {
+      MenuPlayerSelect();
+    }
+    else if(menuCounter == 2)
+    {
+      MenuVariables();
+    }
+    else if(menuCounter == 3)
+    {
+      Game();
     }
     
-    item.Behaviour(destPos);
-  }
-  hitlerCorve[0].DrawCorve();
-  hitlerCorve[0].DrawControlPoitns();
-  mussoliniCorve[0].DrawCorve();
-  mussoliniCorve[0].DrawControlPoitns();
-  abrahamLinconCorve[0].DrawCorve();
-  abrahamLinconCorve[0].DrawControlPoitns();
-  gandhiCorve[0].DrawCorve();
-  gandhiCorve[0].DrawControlPoitns();
-  CameraBehaviour();
-
-
-
-  //Draw
-  DrawGrid();
-  for (Scenari item : scenari)
-  {
-    item.Draw();
-  }
-  hitlerCommander.Draw();
-  mussoliniCommander.Draw();
-  gandhiCommander.Draw();
-  abrahamLinconCommander.Draw();
-
-  for(Soldier item : soldiers)
-  {
-    item.Draw();
-  }
-}
+ }
 
 void DrawGrid()
 {

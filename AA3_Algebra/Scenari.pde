@@ -17,9 +17,7 @@ class Scenari
     m_rotation = _rotation;
     m_color = _color;
   }
-
-
-
+  
   void Draw()
   {
     pushMatrix();
