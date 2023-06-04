@@ -30,12 +30,27 @@ class Soldier
   float corveIncrement;
   float corveSpeed = 0.04f;
   float minDistance = 30f;
+
+
+  int hp;
   boolean isAlive;
+
+  boolean canShoot = false;
+  PVector posToShoot;
+  float lastTimeShoot = 0;
+  float shootCD;
 
   Soldier[] soldierSquad;
 
-  Soldier(Team _currentTeam, PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _height, float _width, float _depht, color _color, float _KB, float _KD, Soldier[] _soldierSquad,  boolean _isCommander)
+
+  PShape shape;
+
+
+  Soldier(Team _currentTeam, PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _height, float _width, float _depht, color _color, float _KB, float _KD, Soldier[] _soldierSquad,  boolean _isCommander, int _hp)
   {
+    isAlive = true;
+
+
     currentTeam = _currentTeam;
     pos =_pos;
     vel = _velocity;
@@ -48,19 +63,37 @@ class Soldier
     // Priodidades de la bandada de pajaros. Cuanto mas cerca de 1, mayor priodidad tendra
     KB = _KB; // Priodidad de seguir a la bandada
     KD = _KD; // Prioridad de seguir al objetivo
-    KC = 30; // Prioridad de evitar colisiones
+    KC = 60; // Prioridad de evitar colisiones
 
     soldierSquad = _soldierSquad;
     isCommander = _isCommander;
+    hp = _hp;
+
+
+    if(isCommander)
+    {
+      shootCD = 1000;      
+    }else{
+      shootCD = 2000;
+    }
+
+    shape = createShape(BOX ,m_width ,m_height, m_depth);
+    shape.setFill(color_p);
+    shape.setStrokeCap(color_p);
+
   }
 
   void Behaviour(PVector _destPos)
   {  
-    //Moverse
-    Move(_destPos);
-    //Comprobar si disparar
-
-    CheckIfReachedDestPoint(_destPos);
+    if(isAlive){
+      //Moverse
+      Move(_destPos);
+      //Comprobar si disparar
+      CheckIfCanShoot();
+      Shoot();
+      
+      CheckIfReachedDestPoint(_destPos);
+    }
 
   }
 
@@ -114,25 +147,25 @@ class Soldier
 
     if (!isCommander)
     {
-      if (isColliding(pos, m_width, m_height, m_depth, hitlerCommander.pos, hitlerCommander.m_width, hitlerCommander.m_height, hitlerCommander.m_depth)) //Si esta chocando con hitler
+      if (hitlerCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, hitlerCommander.pos, hitlerCommander.m_width, hitlerCommander.m_height, hitlerCommander.m_depth)) //Si esta chocando con hitler
       {
         //Devolverle la posicion de el objeto encontrado
         return hitlerCommander.pos;
       }
       
-      if (isColliding(pos, m_width, m_height, m_depth, mussoliniCommander.pos, mussoliniCommander.m_width, mussoliniCommander.m_height, mussoliniCommander.m_depth)) //Si esta chocando con mussolini
+      if (mussoliniCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, mussoliniCommander.pos, mussoliniCommander.m_width, mussoliniCommander.m_height, mussoliniCommander.m_depth)) //Si esta chocando con mussolini
       {
         //Devolverle la posicion de el objeto encontrado
         return mussoliniCommander.pos;
-      }
+      } //<>//
       
-      if (isColliding(pos, m_width, m_height, m_depth, gandhiCommander.pos, gandhiCommander.m_width, gandhiCommander.m_height, gandhiCommander.m_depth)) //Si esta chocando con gandhi
+      if (gandhiCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, gandhiCommander.pos, gandhiCommander.m_width, gandhiCommander.m_height, gandhiCommander.m_depth)) //Si esta chocando con gandhi
       {
         //Devolverle la posicion de el objeto encontrado
         return gandhiCommander.pos;
       }
-      
-      if (isColliding(pos, m_width, m_height, m_depth, abrahamLinconCommander.pos, abrahamLinconCommander.m_width, abrahamLinconCommander.m_height, abrahamLinconCommander.m_depth)) //Si esta chocando con lincon
+
+      if (abrahamLinconCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, abrahamLinconCommander.pos, abrahamLinconCommander.m_width, abrahamLinconCommander.m_height, abrahamLinconCommander.m_depth)) //Si esta chocando con lincon
       {
           //Devolverle la posicion de el objeto encontrado
           return abrahamLinconCommander.pos;
@@ -140,13 +173,13 @@ class Soldier
 
       for(Soldier item : soldiers)
       {    
-        if (item != this && isColliding(pos, m_width, m_height, m_depth, item.pos,item.m_width, item.m_height, item.m_depth)) //Si esta chocando con algo y no somos nosotros mismos
+        if (item != this && item.isAlive && isColliding(pos, m_width, m_height, m_depth, item.pos,item.m_width, item.m_height, item.m_depth)) //Si esta chocando con algo y no somos nosotros mismos
         {
           //Devolverle la posicion de el objeto encontrado
           return item.pos;
         }
       }
-    } //<>//
+    }
 
     for (Scenari item : scenari)
     {
@@ -157,7 +190,7 @@ class Soldier
       }
     }
 
-    //Si no esta tocando nada devuelve un Vector 0 //<>// //<>// //<>//
+    //Si no esta tocando nada devuelve un Vector 0
     return new PVector(0, 0, 0);
   }
 
@@ -175,7 +208,6 @@ class Soldier
       if(maxP1Point.z > minP2Point.z && maxP1Point.z < maxP2Point.z 
       || minP1Point.z > minP2Point.z && minP1Point.z < maxP2Point.z)
       {
-        println("Ha chocado");
         return true;
       }
     }
@@ -185,10 +217,97 @@ class Soldier
     return false;
   }
 
+  private void CheckIfCanShoot()
+  {
+    PVector nearestSoldier = null;
+    float nearestDistance = 300;
+    float maxDistanceToShoot = 300;
+    float currentDistance;
+
+    switch(currentTeam)
+    {
+      case RED:
+      case ORANGE:
+        for(Soldier item : soldiers)
+        {
+          currentDistance = GetDistance(pos, item.pos);
+          if(item != this && item.isAlive && item.currentTeam != Team.RED && item.currentTeam != Team.ORANGE && currentDistance < maxDistanceToShoot && currentDistance < nearestDistance)
+          {
+            nearestDistance = currentDistance;
+            nearestSoldier = item.pos;
+          }
+        }
+        currentDistance = GetDistance(pos, abrahamLinconCommander.pos);
+        if(abrahamLinconCommander.isAlive && abrahamLinconCommander.currentTeam != currentTeam && currentDistance < maxDistanceToShoot && currentDistance < nearestDistance)
+        {
+          nearestDistance = currentDistance;
+          nearestSoldier = abrahamLinconCommander.pos;
+        }
+    
+        currentDistance = GetDistance(pos, gandhiCommander.pos);
+        if(gandhiCommander.isAlive && gandhiCommander.currentTeam != currentTeam && currentDistance < maxDistanceToShoot && currentDistance < nearestDistance)
+        {
+          nearestDistance = currentDistance;
+          nearestSoldier = gandhiCommander.pos;
+        }
+    
+      break;
+
+      case GREEN:
+      case BLUE:
+        for(Soldier item : soldiers)
+        {
+          currentDistance = GetDistance(pos, item.pos);
+          if(item != this && item.isAlive && item.currentTeam != Team.GREEN && item.currentTeam != Team.BLUE && currentDistance < maxDistanceToShoot && currentDistance < nearestDistance)
+          {
+            nearestDistance = currentDistance;
+            nearestSoldier = item.pos;
+          }
+        }
+
+        currentDistance = GetDistance(pos, hitlerCommander.pos);
+        if(hitlerCommander.isAlive && hitlerCommander.currentTeam != currentTeam && currentDistance < maxDistanceToShoot && currentDistance < nearestDistance)
+        {
+          nearestDistance = currentDistance;
+          nearestSoldier = hitlerCommander.pos;
+        }
+
+        currentDistance = GetDistance(pos, mussoliniCommander.pos);
+        if(mussoliniCommander.isAlive && mussoliniCommander.currentTeam != currentTeam && currentDistance < maxDistanceToShoot && currentDistance < nearestDistance)
+        {
+          nearestDistance = currentDistance;
+          nearestSoldier = mussoliniCommander.pos;
+        }
+
+      break;
+      default:
+      break;
+    }
+
+    if(nearestSoldier != null)
+    {
+      posToShoot = nearestSoldier;
+      canShoot = true;
+    }else{
+      canShoot = false;
+      posToShoot = null;
+    }
+
+  }
+
+  void Shoot()
+  {
+    if(canShoot && posToShoot != null && millis() - lastTimeShoot >= shootCD)
+    {
+      bullets.add(new Bullet(pos, posToShoot, currentTeam));
+      lastTimeShoot = millis();
+    }
+  } 
+
   void CheckIfReachedDestPoint(PVector _destPos)
   {
     if(isCommander){
-    float dist = sqrt((pos.x * pos.x - _destPos.x * _destPos.x) + (pos.z * pos.z - _destPos.z * _destPos.z));
+      float dist = GetDistance(pos, _destPos);
       if(dist <= minDistance){
         corveIncrement += corveSpeed;
         if(corveIncrement >= 1)
@@ -200,21 +319,30 @@ class Soldier
           corveIncrement = 0;
           corveSpeed *= -1;
         }
-        println("Aumento");
       }
-      println(dist);
     }
   }
 
   void Draw()
   {
-    pushMatrix();
-    translate(pos.x, pos.y, pos.z);
-    fill(color_p);
-    strokeWeight(4);
-    stroke(0);
-    box(m_width, m_height, m_depth);
-    popMatrix();
+    if(isAlive)
+    {
+      pushMatrix();
+      translate(pos.x, pos.y, pos.z);
+      shape(shape);
+      popMatrix();
+    }
+
+  }
+
+
+  public void DealDamage()
+  {
+    hp--;
+    if(hp <= 0)
+    {
+      isAlive = false;
+    }
 
 
   }
