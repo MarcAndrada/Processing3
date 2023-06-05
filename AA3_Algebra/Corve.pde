@@ -22,28 +22,59 @@ class Corve
 
     void CalculateCoefficients() 
     { // Solo se ejecuta al cambiar los puntos de control o al 
-        coefficients = new PVector[4];
-        coefficients[0] = new PVector();
-        coefficients[1] = new PVector();
-        coefficients[2] = new PVector();
-        coefficients[3] = new PVector();
-        //EQUACIONES DE BEZIER:
-        // C0 = P0
-        // C1 = -3P0 + 3P1
-        // C2 = 3P0 - 6P1 + 3P2
-        // C3 = -P0 + 3P1 - 3P2 + P3
-        
-        //Calcular la X
-        coefficients[0].x = controlPoints[0].x;
-        coefficients[1].x = -3 * controlPoints[0].x + 3 * controlPoints[1].x;
-        coefficients[2].x = 3 * controlPoints[0].x - 6 * controlPoints[1].x + 3 * controlPoints[2].x;
-        coefficients[3].x = -controlPoints[0].x + 3 * controlPoints[1].x - 3 * controlPoints[2].x + controlPoints[3].x;
 
-        //Calcular la Y
-        coefficients[0].z = controlPoints[0].z;
-        coefficients[1].z = -3 * controlPoints[0].z + 3 * controlPoints[1].z;
-        coefficients[2].z = 3 * controlPoints[0].z - 6 * controlPoints[1].z + 3 * controlPoints[2].z;
-        coefficients[3].z = -controlPoints[0].z + 3 * controlPoints[1].z - 3 * controlPoints[2].z + controlPoints[3].z;
+        if (isBezier)
+        {
+            coefficients = new PVector[4];
+            coefficients[0] = new PVector();
+            coefficients[1] = new PVector();
+            coefficients[2] = new PVector();
+            coefficients[3] = new PVector();
+            //EQUACIONES DE BEZIER:
+            // C0 = P0
+            // C1 = -3P0 + 3P1
+            // C2 = 3P0 - 6P1 + 3P2
+            // C3 = -P0 + 3P1 - 3P2 + P3
+            
+            //Calcular la X
+            coefficients[0].x = controlPoints[0].x;
+            coefficients[1].x = -3 * controlPoints[0].x + 3 * controlPoints[1].x;
+            coefficients[2].x = 3 * controlPoints[0].x - 6 * controlPoints[1].x + 3 * controlPoints[2].x;
+            coefficients[3].x = -controlPoints[0].x + 3 * controlPoints[1].x - 3 * controlPoints[2].x + controlPoints[3].x;
+
+            //Calcular la Y
+            coefficients[0].z = controlPoints[0].z;
+            coefficients[1].z = -3 * controlPoints[0].z + 3 * controlPoints[1].z;
+            coefficients[2].z = 3 * controlPoints[0].z - 6 * controlPoints[1].z + 3 * controlPoints[2].z;
+            coefficients[3].z = -controlPoints[0].z + 3 * controlPoints[1].z - 3 * controlPoints[2].z + controlPoints[3].z;
+        }
+        else
+        {
+            coefficients = new PVector[4];
+            coefficients[0] = new PVector();
+            coefficients[1] = new PVector();
+            coefficients[2] = new PVector();
+            coefficients[3] = new PVector();
+             //Los coeficientes son:
+            // C0 = P0
+            // C1 = -5.5P0 + 9P1 -4.5P2 + P3
+            // C2 = 9P0 - 22.5P1 + 18P2 - 4.5P3
+            // C3 = -4.5 + 13.5P1 - 13.5P2 + 4.5P3
+
+            //Calcular la X
+            coefficients[0].x = controlPoints[0].x;
+            coefficients[1].x = -5.5 * controlPoints[0].x + 9 * controlPoints[1].x - 4.5 * controlPoints[2].x + controlPoints[3].x;
+            coefficients[2].x = 9 * controlPoints[0].x - 22.5 * controlPoints[1].x + 18 * controlPoints[2].x - 4.5 * controlPoints[3].x;
+            coefficients[3].x = -4.5 * controlPoints[0].x + 13.5 * controlPoints[1].x - 13.5 * controlPoints[2].x + 4.5 * controlPoints[3].x;
+
+            //Calcular la Z
+            coefficients[0].z = controlPoints[0].z;
+            coefficients[1].z = -5.5 * controlPoints[0].z + 9 * controlPoints[1].z - 4.5 * controlPoints[2].z + controlPoints[3].z;
+            coefficients[2].z = 9 * controlPoints[0].z - 22.5 * controlPoints[1].z + 18 * controlPoints[2].z - 4.5 * controlPoints[3].z;
+            coefficients[3].z = -4.5 * controlPoints[0].z + 13.5 * controlPoints[1].z - 13.5 * controlPoints[2].z + 4.5 * controlPoints[3].z;
+        }
+           
+        
     }
 
     void DrawCorve()

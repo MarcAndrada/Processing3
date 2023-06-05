@@ -129,6 +129,8 @@ void mouseClicked()
         if (isBezier)
             valueColor = 190;
             valueColor2 = 225;
+        auxCorve[0].CalculateCoefficients();
+
     }
     else if(mouseX >= 600 && mouseX <= 700 && mouseY >=850 && mouseY <= 900)
     {
@@ -137,6 +139,8 @@ void mouseClicked()
         if (!isBezier)
             valueColor2 = 190;
             valueColor = 225;
+        auxCorve[0].CalculateCoefficients();
+
     }
     
 }

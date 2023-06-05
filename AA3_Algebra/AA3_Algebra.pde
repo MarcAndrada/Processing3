@@ -1,5 +1,5 @@
 PVector[] pestañas = new PVector[4];
-int menuCounter = 3;
+int menuCounter = 0;
 
 ArrayList<Bullet> bullets;
 float deltaTime = 0.08;
@@ -293,7 +293,6 @@ void DrawGrid()
 
 void CommandersBehaviour()
 {
-
   //Comandante 1
   float x = hitlerCorve[0].coefficients[0].x +
     hitlerCorve[0].coefficients[1].x * hitlerCommander.corveIncrement +

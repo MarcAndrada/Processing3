@@ -27,10 +27,14 @@ void PressButton()
   if (mousePressed && (mouseButton==LEFT) && mouseX >= 400 && mouseX <= 600 && mouseY >= 500 && mouseY <= 550) 
   {
     menuCounter = 3; 
-    
+
      camera(0, -2000, 0, 
     0, 0, 20,
     0, 1, 0);
+    hitlerCorve[0].CalculateCoefficients();
+    mussoliniCorve[0].CalculateCoefficients();
+    gandhiCorve[0].CalculateCoefficients();
+    abrahamLinconCorve[0].CalculateCoefficients();
   }
   else if (mousePressed && (mouseButton==LEFT) && mouseX >= 400 && mouseX <= 600 && mouseY >= 565 && mouseY <= 615) 
   {
