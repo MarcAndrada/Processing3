@@ -19,9 +19,8 @@ class Soldier
   float KD;
   //KC separacion de las colisiones
   float KC;
-  color color_p;
   float maxSpeed;
-  float dampingForce = 0.6f;
+  float dampingForce = 4f;
 
   boolean isCommander;
 
@@ -44,9 +43,14 @@ class Soldier
 
 
   PShape shape;
+  PImage originalTexture;
+  PImage currentTexture;
+  boolean LUTed = false;
+  float timeWaitedLUT;
+  float durationLUT = 350;
 
 
-  Soldier(Team _currentTeam, PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _height, float _width, float _depht, color _color, float _KB, float _KD, Soldier[] _soldierSquad,  boolean _isCommander, int _hp)
+  Soldier(Team _currentTeam, PVector _pos, PVector _velocity, float _maxSpeed, float _weight, float _height, float _width, float _depht, PImage _texture, float _KB, float _KD, Soldier[] _soldierSquad,  boolean _isCommander, int _hp)
   {
     isAlive = true;
 
@@ -59,11 +63,10 @@ class Soldier
     m_height = _height;
     m_width = _width;
     m_depth = _depht;
-    color_p = _color;
     // Priodidades de la bandada de pajaros. Cuanto mas cerca de 1, mayor priodidad tendra
     KB = _KB; // Priodidad de seguir a la bandada
     KD = _KD; // Prioridad de seguir al objetivo
-    KC = 60; // Prioridad de evitar colisiones
+    KC = 150; // Prioridad de evitar colisiones
 
     soldierSquad = _soldierSquad;
     isCommander = _isCommander;
@@ -77,9 +80,35 @@ class Soldier
       shootCD = 2000;
     }
 
+
+    originalTexture = _texture.copy();
+    currentTexture = _texture.copy();
     shape = createShape(BOX ,m_width ,m_height, m_depth);
-    shape.setFill(color_p);
-    shape.setStrokeCap(color_p);
+    if(!isCommander){
+      color textureColor = color(255);
+
+      switch(currentTeam)
+      {
+        case RED:
+          textureColor = color(255,0,0);
+        break;
+        case ORANGE:
+          textureColor = color(255,102,0);
+        break;
+        case BLUE:
+          textureColor = color(0,0,255);
+        break;
+        case GREEN:
+          textureColor = color(0,255,0);
+        break;
+        default:
+        break;
+      }
+      shape.setFill(textureColor);
+      shape.setStrokeCap(textureColor);
+    }
+    //color(255, 102, 0) naranja
+    shape.setTexture(currentTexture);
 
   }
 
@@ -93,6 +122,8 @@ class Soldier
       Shoot();
       
       CheckIfReachedDestPoint(_destPos);
+
+      WaitDamagedLUT();
     }
 
   }
@@ -128,16 +159,16 @@ class Soldier
     //Aplicamos la friccion (damping)
     strenght.x += -dampingForce * vel.x;
     strenght.z += -dampingForce * vel.z;
+ //<>// //<>//
 
-
-    accel.x = strenght.x/weight;
+    accel.x = strenght.x/weight; //<>//
     accel.z = strenght.z/weight;
 
     //Utilizamos la formula de Euler
     vel.x += accel.x * deltaTime;
     vel.z += accel.z * deltaTime;
 
-    pos.x = pos.x + vel.x * deltaTime;
+    pos.x = pos.x + vel.x * deltaTime; //<>//
     pos.z = pos.z + vel.z * deltaTime;
 
   }
@@ -154,16 +185,16 @@ class Soldier
       }
       
       if (mussoliniCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, mussoliniCommander.pos, mussoliniCommander.m_width, mussoliniCommander.m_height, mussoliniCommander.m_depth)) //Si esta chocando con mussolini
-      {
+      { //<>// //<>//
         //Devolverle la posicion de el objeto encontrado
-        return mussoliniCommander.pos;
-      } //<>//
+        return mussoliniCommander.pos; //<>//
+      } //<>// //<>//
       
       if (gandhiCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, gandhiCommander.pos, gandhiCommander.m_width, gandhiCommander.m_height, gandhiCommander.m_depth)) //Si esta chocando con gandhi
       {
         //Devolverle la posicion de el objeto encontrado
         return gandhiCommander.pos;
-      }
+      } //<>//
 
       if (abrahamLinconCommander.isAlive && isColliding(pos, m_width, m_height, m_depth, abrahamLinconCommander.pos, abrahamLinconCommander.m_width, abrahamLinconCommander.m_height, abrahamLinconCommander.m_depth)) //Si esta chocando con lincon
       {
@@ -183,7 +214,7 @@ class Soldier
 
     for (Scenari item : scenari)
     {
-      if (item != null && item != floor && isColliding(pos, m_width, m_height, m_depth, item.m_pos, item.m_width, item.m_height, item.m_depth)) //Si esta chocando con algo //<>// //<>//
+      if (item != null && item != floor && isColliding(pos, m_width, m_height, m_depth, item.m_pos, item.m_width, item.m_height, item.m_depth)) //Si esta chocando con algo //<>// //<>// //<>//
       {
         //Devolverle la posicion de el objeto encontrado
         return item.m_pos;
@@ -335,6 +366,21 @@ class Soldier
 
   }
 
+  void WaitDamagedLUT()
+  {
+    if(LUTed && millis() - timeWaitedLUT >= durationLUT)
+    {
+      for (int i = 0; i < originalTexture.width; ++i) 
+      {
+        for(int j = 0; j < originalTexture.height; ++j)  
+        {
+           color colorPixel = originalTexture.get(i,j);
+           currentTexture.set(i, j, colorPixel);
+        }
+      }
+      LUTed = false;
+    }
+  }
 
   public void DealDamage()
   {
@@ -343,8 +389,18 @@ class Soldier
     {
       isAlive = false;
     }
-
+    
+    for (int i = 0; i < originalTexture.width; ++i) 
+    {
+      for(int j = 0; j < originalTexture.height; ++j)  
+      {
+         color colorPixel = originalTexture.get(i,j);
+         float red = red(colorPixel);
+         currentTexture.set(i, j, color(red,0,0));
+      }
+    }
+    timeWaitedLUT = millis();
+    LUTed = true;
 
   }
 }
-sadasdasad

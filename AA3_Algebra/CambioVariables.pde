@@ -81,5 +81,3 @@ void Drawtext(float _variable, float _x, float _y)
     fill(0);
     text(_variable, _x, _y);
 }
-
-
