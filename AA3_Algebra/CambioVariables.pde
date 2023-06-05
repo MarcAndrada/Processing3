@@ -1,36 +1,11 @@
+boolean isBezier;
+int valueColor = 225;
+int valueColor2 = 225;
 
 void MenuVariables()
 {  
     
-    background(100);
-    
-  background(100);
-   hitlerCorve[0].DrawCorve();
-  hitlerCorve[0].DrawControlPoitns();
-  mussoliniCorve[0].DrawCorve();
-  mussoliniCorve[0].DrawControlPoitns();
-  abrahamLinconCorve[0].DrawCorve();
-  abrahamLinconCorve[0].DrawControlPoitns();
-  gandhiCorve[0].DrawCorve();
-  gandhiCorve[0].DrawControlPoitns();
-  
-  
-  //Draw
-  DrawGrid();
-  
-    for (Scenari item : scenari)
-    {
-      item.Draw();
-    }
-    hitlerCommander.Draw();
-    mussoliniCommander.Draw();
-    gandhiCommander.Draw();
-    abrahamLinconCommander.Draw();
-
-    for(Soldier item : soldiers)
-    {
-      item.Draw();
-    }
+    background(255);
 
    // line(width/2, 0, width/2, height);
 
@@ -79,6 +54,17 @@ void MenuVariables()
     fill(175);
     triangle(705, 520, 710, 530, 715, 520);
 
+    fill(valueColor);
+    rect(300, 850, 100, 50);
+    fill(0);
+    text("BEZIER", 320, 880);
+
+
+    fill(valueColor2);
+    rect(600, 850, 100, 50);
+    fill(0);
+    text("LINEAL", 620, 880);
+
 }
 
 
@@ -87,6 +73,10 @@ void mouseClicked()
     if(  mouseX >= 930 && mouseX <= 950 && mouseY >= 20 && mouseY <= 40)
     {
         menuCounter--;
+        if (menuCounter <= 0)
+        {
+            menuCounter = 0;
+        }
     }
 
     else if( mouseX >= 555 && mouseX <= 565 && mouseY >=250 && mouseY <= 260)
@@ -110,22 +100,45 @@ void mouseClicked()
     else if( mouseX >= 405 && mouseX <= 415 && mouseY >=500 && mouseY <= 510)
     {
         auxCorve[0].controlPoints[aux_point].x++;
+        auxCorve[0].CalculateCoefficients();
     }
 
     else if( mouseX >= 405 && mouseX <= 415 && mouseY >=520 && mouseY <= 530)
     {
         auxCorve[0].controlPoints[aux_point].x--;
+        auxCorve[0].CalculateCoefficients();
+
     }
 
     else if( mouseX >= 705 && mouseX <= 715 && mouseY >=500 && mouseY <= 510)
     {
         auxCorve[0].controlPoints[aux_point].z++;
+        auxCorve[0].CalculateCoefficients();
+
     }
 
     else if( mouseX >= 705 && mouseX <= 715 && mouseY >=520 && mouseY <= 530)
     {
         auxCorve[0].controlPoints[aux_point].z--;
+        auxCorve[0].CalculateCoefficients();
+
     }
+    else if(mouseX >= 300 && mouseX <= 400 && mouseY >=850 && mouseY <= 900)
+    {
+        isBezier = true;
+        if (isBezier)
+            valueColor = 190;
+            valueColor2 = 225;
+    }
+    else if(mouseX >= 600 && mouseX <= 700 && mouseY >=850 && mouseY <= 900)
+    {
+        isBezier = false;
+        
+        if (!isBezier)
+            valueColor2 = 190;
+            valueColor = 225;
+    }
+    
 }
 
 

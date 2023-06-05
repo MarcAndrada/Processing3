@@ -65,9 +65,7 @@ void setup()
   InitializeCorves();
   InitializeSoldiers();
   
-   camera(0, -2000, 0, 
-    0, 0, 20,
-    0, 1, 0);
+  
   auxCorve = new Corve[1];
 }
 

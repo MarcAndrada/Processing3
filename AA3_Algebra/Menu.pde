@@ -1,34 +1,7 @@
 
 void CuadradosMenu()
 {
-  background(100);
-   hitlerCorve[0].DrawCorve();
-  hitlerCorve[0].DrawControlPoitns();
-  mussoliniCorve[0].DrawCorve();
-  mussoliniCorve[0].DrawControlPoitns();
-  abrahamLinconCorve[0].DrawCorve();
-  abrahamLinconCorve[0].DrawControlPoitns();
-  gandhiCorve[0].DrawCorve();
-  gandhiCorve[0].DrawControlPoitns();
-  
-  
-  //Draw
-  DrawGrid();
-  
-    for (Scenari item : scenari)
-    {
-      item.Draw();
-    }
-    hitlerCommander.Draw();
-    mussoliniCommander.Draw();
-    gandhiCommander.Draw();
-    abrahamLinconCommander.Draw();
-
-    for(Soldier item : soldiers)
-    {
-      item.Draw();
-    }
-    
+  background(255);
 
   fill(175, 175, 175);
   rect(400, 500, 200, 50);
@@ -54,6 +27,10 @@ void PressButton()
   if (mousePressed && (mouseButton==LEFT) && mouseX >= 400 && mouseX <= 600 && mouseY >= 500 && mouseY <= 550) 
   {
     menuCounter = 3; 
+    
+     camera(0, -2000, 0, 
+    0, 0, 20,
+    0, 1, 0);
   }
   else if (mousePressed && (mouseButton==LEFT) && mouseX >= 400 && mouseX <= 600 && mouseY >= 565 && mouseY <= 615) 
   {

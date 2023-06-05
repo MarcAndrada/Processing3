@@ -7,35 +7,7 @@ int aux_point = 0;
 void MenuPlayerSelect()
 {
   
-  background(100);
-  
-  background(100);
-   hitlerCorve[0].DrawCorve();
-  hitlerCorve[0].DrawControlPoitns();
-  mussoliniCorve[0].DrawCorve();
-  mussoliniCorve[0].DrawControlPoitns();
-  abrahamLinconCorve[0].DrawCorve();
-  abrahamLinconCorve[0].DrawControlPoitns();
-  gandhiCorve[0].DrawCorve();
-  gandhiCorve[0].DrawControlPoitns();
-  
-  
-  //Draw
-  DrawGrid();
-  
-    for (Scenari item : scenari)
-    {
-      item.Draw();
-    }
-    hitlerCommander.Draw();
-    mussoliniCommander.Draw();
-    gandhiCommander.Draw();
-    abrahamLinconCommander.Draw();
-
-    for(Soldier item : soldiers)
-    {
-      item.Draw();
-    }
+  background(255);
   
   fill(175, 175, 175);
   rect(150, 250, 200, 100);
@@ -73,8 +45,6 @@ void MenuPlayerSelect()
 
 void PressPlayerSelect()
 {
-  
-  
   if (mousePressed && (mouseButton==LEFT) && mouseX >= 150 && mouseX <= 350 && mouseY >= 250 && mouseY <= 350) 
   {
     println ("HITLER");
@@ -92,8 +62,8 @@ void PressPlayerSelect()
 
     menuCounter++;
     
-      auxCorve[0] = hitlerCorve[0];
-      auxCorve[0] = hitlerCorve[0];
+      auxCorve[0] = mussoliniCorve[0];
+      auxCorve[0] = mussoliniCorve[0];
     
   } 
   else if(mousePressed && (mouseButton==LEFT) && mouseX >= 150 && mouseX <= 350 && mouseY >= 500 && mouseY <= 600)
@@ -102,8 +72,8 @@ void PressPlayerSelect()
 
     menuCounter++;
     
-      auxCorve[0] = hitlerCorve[0];
-      auxCorve[0] = hitlerCorve[0];
+      auxCorve[0] = gandhiCorve[0];
+      auxCorve[0] = gandhiCorve[0];
     
   } 
   else if(mousePressed && (mouseButton==LEFT) && mouseX >= 650 && mouseX <= 850 && mouseY >= 500 && mouseY <= 600)
@@ -112,12 +82,16 @@ void PressPlayerSelect()
 
     menuCounter++;
     
-      auxCorve[0] = hitlerCorve[0];
-      auxCorve[0] = hitlerCorve[0];
+      auxCorve[0] = abrahamLinconCorve[0];
+      auxCorve[0] = abrahamLinconCorve[0];
     
   }
   else if( mousePressed && (mouseButton==LEFT) && mouseX >= 930 && mouseX <= 950 && mouseY >= 20 && mouseY <= 40)
   {
     menuCounter--;
+    if (menuCounter <= 0)
+        {
+            menuCounter = 0;
+        }
   }
 }
