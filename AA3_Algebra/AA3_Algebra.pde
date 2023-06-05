@@ -241,6 +241,7 @@ void InitializeCorves()
   corveColor = color(0, 255, 0);
   pointsColor = color(0, 153, 0);
 
+  
   //Inicializar puntos de curva 4
   points4[0] = new PVector(-fieldSizeX + fieldSizeX/8, 450, -fieldSizeZ/2);
   points4[1] = new PVector(-fieldSizeX + fieldSizeX/4, 450, -fieldSizeZ/2);
