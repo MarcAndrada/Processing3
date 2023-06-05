@@ -1,5 +1,5 @@
 PVector[] pestañas = new PVector[4];
-int menuCounter = 0;
+int menuCounter = 3;
 
 ArrayList<Bullet> bullets;
 float deltaTime = 0.08;
@@ -92,17 +92,17 @@ void InitializeScenari()
   floor = scenari[8];
 
   // //Pasillos Verdes
-  scenari[9] = new Scenari(new PVector(0, 0, 0), gridSize, hallHeight, fieldSizeX - ((fieldSizeX/8) * 2.5f), 0, color(0, 255, 0));
+  //scenari[9] = new Scenari(new PVector(0, 0, 0), gridSize, hallHeight, fieldSizeX - ((fieldSizeX/8) * 2.5f), 0, color(0, 255, 0));
   //Pasillos Rojos
   scenari[10] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, (fieldSizeZ / 3)), 250, hallHeight, gridSize, 0, color(255, 0, 0));
   scenari[11] = new Scenari(new PVector((fieldSizeX / 8) * 6, 0, (-fieldSizeZ / 3)), 250, hallHeight, gridSize, 0, color(255, 0, 0));
-  scenari[12] = new Scenari(new PVector((fieldSizeX / 8) * 4, 0, 0), gridSize, hallHeight, 600, 0, color(255, 0, 0));
+  //scenari[12] = new Scenari(new PVector((fieldSizeX / 8) * 4, 0, 0), gridSize, hallHeight, 600, 0, color(255, 0, 0));
   scenari[13] = new Scenari(new PVector((fieldSizeX / 8) * 2, 0, (fieldSizeZ / 2)), 400, hallHeight, gridSize, 0, color(255, 0, 0));
   scenari[14] = new Scenari(new PVector((fieldSizeX / 8) * 2, 0, (-fieldSizeZ / 2)), 400, hallHeight, gridSize, 0, color(255, 0, 0));
   //Pasillos Azules
   scenari[15] = new Scenari(new PVector((-fieldSizeX / 8) * 6, 0, (fieldSizeZ / 3)), 250, hallHeight, gridSize, 0, color(0, 0, 255));
   scenari[16] = new Scenari(new PVector((-fieldSizeX / 8) * 6, 0, (-fieldSizeZ / 3)), 250, hallHeight, gridSize, 0, color(0, 0, 255));
-  scenari[17] = new Scenari(new PVector((-fieldSizeX / 8) * 4, 0, 0), gridSize, hallHeight, 600, 0, color(0, 0, 255));
+  //scenari[17] = new Scenari(new PVector((-fieldSizeX / 8) * 4, 0, 0), gridSize, hallHeight, 600, 0, color(0, 0, 255));
   scenari[18] = new Scenari(new PVector((-fieldSizeX / 8) * 2, 0, (fieldSizeZ / 2)), 400, hallHeight, gridSize, 0, color(0, 0, 255));
   scenari[19] = new Scenari(new PVector((-fieldSizeX / 8) * 2, 0, (-fieldSizeZ / 2)), 400, hallHeight, gridSize, 0, color(0, 0, 255));
 }
@@ -193,10 +193,10 @@ void InitializeCorves()
   int totalPoints = 30;
 
   //Inicializar puntos de curva 1
-  points[0] = new PVector(100, 450, 0);
-  points[1] = new PVector(200, 450, 100);
-  points[2] = new PVector(300, 450, 0);
-  points[3] = new PVector(400, 450, 100);
+  points[0] = new PVector(fieldSizeX - fieldSizeX/8, 450, -fieldSizeZ/2);
+  points[1] = new PVector(fieldSizeX - fieldSizeX/2, 450, -fieldSizeZ/2);
+  points[2] = new PVector(-fieldSizeX + fieldSizeX/2, 450, fieldSizeZ/2);
+  points[3] = new PVector(-fieldSizeX + fieldSizeX/8, 450, fieldSizeZ/2);
   //Inicializar curva 1
   hitlerCorve[0] = new Corve(points, corveThickness, totalPoints, corveColor, pointsColor);
 
@@ -208,10 +208,10 @@ void InitializeCorves()
   pointsColor = color(153, 61, 0);
 
   //Inicializar puntos de curva 2
-  points2[0] = new PVector(100, 450, 100);
-  points2[1] = new PVector(200, 450, 200);
-  points2[2] = new PVector(300, 450, 100);
-  points2[3] = new PVector(400, 450, 200);
+  points2[0] = new PVector(fieldSizeX - fieldSizeX/8, 450, fieldSizeZ/2);
+  points2[1] = new PVector(fieldSizeX - fieldSizeX/4, 450, fieldSizeZ/2);
+  points2[2] = new PVector(0, 450, fieldSizeZ/2);
+  points2[3] = new PVector(-fieldSizeX - fieldSizeX/4, 450, -fieldSizeZ/2);
   //Inicializar curva 2
   mussoliniCorve[0] = new Corve(points2, corveThickness, totalPoints, corveColor, pointsColor);
 
@@ -224,10 +224,10 @@ void InitializeCorves()
   pointsColor = color(0, 0, 153);
 
   //Inicializar puntos de curva 3
-  points3[0] = new PVector(100, 450, -200);
-  points3[1] = new PVector(200, 450, -300);
-  points3[2] = new PVector(300, 450, -200);
-  points3[3] = new PVector(400, 450, -300);
+  points3[0] = new PVector(-fieldSizeX + fieldSizeX/8, 450, fieldSizeZ/2);
+  points3[1] = new PVector(-fieldSizeX + fieldSizeX/2, 450, fieldSizeZ/2);
+  points3[2] = new PVector( fieldSizeX - fieldSizeX/2 , 450, -fieldSizeZ/2);
+  points3[3] = new PVector( fieldSizeX - fieldSizeX/8, 450, -fieldSizeZ/2);
   //Inicializar curva 3
   abrahamLinconCorve[0] = new Corve(points3, corveThickness, totalPoints, corveColor, pointsColor);
 
@@ -239,12 +239,14 @@ void InitializeCorves()
   corveColor = color(0, 255, 0);
   pointsColor = color(0, 153, 0);
 
-  //Inicializar puntos de curva 2
-  points4[0] = new PVector(100, 450, -100);
-  points4[1] = new PVector(200, 450, -200);
-  points4[2] = new PVector(300, 450, -100);
-  points4[3] = new PVector(400, 450, -200);
-  //Inicializar curva 2
+  
+  //Inicializar puntos de curva 4
+  points4[0] = new PVector(-fieldSizeX + fieldSizeX/8, 450, -fieldSizeZ/2);
+  points4[1] = new PVector(-fieldSizeX + fieldSizeX/4, 450, -fieldSizeZ/2);
+  points4[2] = new PVector(0, 450, fieldSizeZ/2);
+  points4[3] = new PVector(fieldSizeX + fieldSizeX/4, 450, fieldSizeZ/2);
+
+  //Inicializar curva 4
   gandhiCorve[0] = new Corve(points4, corveThickness, totalPoints, corveColor, pointsColor);
 }
 
@@ -419,9 +421,9 @@ PVector FlockCenter(Soldier[] _soldierFlock)
 float GetDistance(PVector _p1, PVector _p2)
 {
   float dist = sqrt((_p1.x * _p1.x - _p2.x * _p2.x) + (_p1.z * _p1.z - _p2.z * _p2.z));
+  println(dist);
   if (dist < 0)
     dist *= -1;
-
   return dist;
 }
 
