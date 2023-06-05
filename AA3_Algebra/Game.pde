@@ -39,22 +39,6 @@ void Game()
   gandhiCorve[0].DrawControlPoitns();
 
   CameraBehaviour();
-  //if (menuCounter == 0)
-  //{
-  //  CuadradosMenu();
-  //}
-  //else if (menuCounter == 1)
-  //{
-  //  MenuPlayerSelect();
-  //}
-  //else if(menuCounter == 2)
-  //{
-  //  MenuVariables();
-  //}
-  //else if(menuCounter == 3)
-  //{
-  //  Game();
-  //}
 
   if (!bullets.isEmpty()) {
     for (int i = 0; i< bullets.size(); i++)
@@ -67,7 +51,8 @@ void Game()
   DrawGrid();
   for (Scenari item : scenari)
   {
-    item.Draw();
+    if(item != null)
+      item.Draw();
   }
   hitlerCommander.Draw();
   mussoliniCommander.Draw();

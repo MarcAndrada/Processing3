@@ -107,7 +107,7 @@ class Bullet
 
         for (Scenari item : scenari)
         {
-            if(item != floor && isColliding(pos, bulletSize,bulletSize, bulletSize, item.m_pos, item.m_width,  item.m_height, item.m_depth))
+            if(item != null && item != floor && isColliding(pos, bulletSize,bulletSize, bulletSize, item.m_pos, item.m_width,  item.m_height, item.m_depth))
             {
                 //Destruir Bala
                 println("PUTA PARED PUTA PARED");
