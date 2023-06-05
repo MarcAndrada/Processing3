@@ -121,7 +121,7 @@ void InitializeSoldiers()
     float kb = random(3, 10);
     float kd = random(6, 10);
     PVector spawnPos = new PVector(hitlerCommander.pos.x + random(-10, 11), hitlerCommander.pos.y, hitlerCommander.pos.z + random(-10, 11));
-    soldiers[i] = new Soldier(Team.RED, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 10);
+    soldiers[i] = new Soldier(Team.RED, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 5);
     hitlerSoldiers[i] = soldiers[i];
   }
 
@@ -132,7 +132,7 @@ void InitializeSoldiers()
     float kb = random(3, 10);
     float kd = random(6, 10);
     PVector spawnPos = new PVector(mussoliniCommander.pos.x + random(-10, 11), mussoliniCommander.pos.y, mussoliniCommander.pos.z + random(-10, 11));
-    soldiers[i] = new Soldier(Team.ORANGE, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 10);
+    soldiers[i] = new Soldier(Team.ORANGE, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 5);
     mussoliniSoldiers[i%soldiersPerComander] = soldiers[i];
   }
 
@@ -142,7 +142,7 @@ void InitializeSoldiers()
     float kb = random(3, 10);
     float kd = random(6, 10);
     PVector spawnPos = new PVector(gandhiCommander.pos.x + random(-10, 11), gandhiCommander.pos.y, gandhiCommander.pos.z + random(-10, 11));
-    soldiers[i] = new Soldier(Team.GREEN, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 10);
+    soldiers[i] = new Soldier(Team.GREEN, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 5);
     gandhiSoldiers[i%soldiersPerComander] = soldiers[i];
   }
 
@@ -152,7 +152,7 @@ void InitializeSoldiers()
     float kb = random(3, 10);
     float kd = random(6, 10);
     PVector spawnPos = new PVector(abrahamLinconCommander.pos.x + random(-10, 11), abrahamLinconCommander.pos.y, abrahamLinconCommander.pos.z + random(-10, 11));
-    soldiers[i] = new Soldier(Team.BLUE, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 10);
+    soldiers[i] = new Soldier(Team.BLUE, spawnPos, new PVector(), random(7.5f, 12.5f), random(40, 60), soldiersSize, soldiersSize, soldiersSize, soldierImg, kb, kd, soldiers, false, 5);
     abrahamLinconSoldiers[i%soldiersPerComander] = soldiers[i];
   }
 
@@ -211,7 +211,7 @@ void InitializeCorves()
   points2[0] = new PVector(fieldSizeX - fieldSizeX/8, 450, fieldSizeZ/2);
   points2[1] = new PVector(fieldSizeX - fieldSizeX/4, 450, fieldSizeZ/2);
   points2[2] = new PVector(0, 450, fieldSizeZ/2);
-  points2[3] = new PVector(-fieldSizeX - fieldSizeX/4, 450, -fieldSizeZ/2);
+  points2[3] = new PVector(-fieldSizeX + fieldSizeX/4, 450, -fieldSizeZ/2);
   //Inicializar curva 2
   mussoliniCorve[0] = new Corve(points2, corveThickness, totalPoints, corveColor, pointsColor);
 
@@ -244,7 +244,7 @@ void InitializeCorves()
   points4[0] = new PVector(-fieldSizeX + fieldSizeX/8, 450, -fieldSizeZ/2);
   points4[1] = new PVector(-fieldSizeX + fieldSizeX/4, 450, -fieldSizeZ/2);
   points4[2] = new PVector(0, 450, fieldSizeZ/2);
-  points4[3] = new PVector(fieldSizeX + fieldSizeX/4, 450, fieldSizeZ/2);
+  points4[3] = new PVector(fieldSizeX - fieldSizeX/4, 450, fieldSizeZ/2);
 
   //Inicializar curva 4
   gandhiCorve[0] = new Corve(points4, corveThickness, totalPoints, corveColor, pointsColor);
