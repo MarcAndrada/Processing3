@@ -1,7 +1,34 @@
 
 void CuadradosMenu()
 {
-  background(255);
+  background(100);
+   hitlerCorve[0].DrawCorve();
+  hitlerCorve[0].DrawControlPoitns();
+  mussoliniCorve[0].DrawCorve();
+  mussoliniCorve[0].DrawControlPoitns();
+  abrahamLinconCorve[0].DrawCorve();
+  abrahamLinconCorve[0].DrawControlPoitns();
+  gandhiCorve[0].DrawCorve();
+  gandhiCorve[0].DrawControlPoitns();
+  
+  
+  //Draw
+  DrawGrid();
+  
+    for (Scenari item : scenari)
+    {
+      item.Draw();
+    }
+    hitlerCommander.Draw();
+    mussoliniCommander.Draw();
+    gandhiCommander.Draw();
+    abrahamLinconCommander.Draw();
+
+    for(Soldier item : soldiers)
+    {
+      item.Draw();
+    }
+    
 
   fill(175, 175, 175);
   rect(400, 500, 200, 50);

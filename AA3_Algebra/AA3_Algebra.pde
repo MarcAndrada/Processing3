@@ -68,6 +68,7 @@ void setup()
    camera(0, -2000, 0, 
     0, 0, 20,
     0, 1, 0);
+  auxCorve = new Corve[1];
 }
 
 void InitializeScenari()
@@ -496,14 +497,12 @@ void keyReleased()
     camMovingRight = false;
   }
 
-
   if ( key == 'e' ) {
     camMovingDown = false;
   }
   if ( key == 'q' ) {
     camMovingUp = false;
   }
-
 
   if ( keyCode == PConstants.UP ) {
     camRotatingUp = false;
